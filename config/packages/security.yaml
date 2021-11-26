@@ -36,8 +36,8 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/panier, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/espace_utilisateur, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/espace_utilisateur/loueur, roles: ROLE_LOUEUR }
+        - { path: ^/espace-utilisateur, roles: [ROLE_LOUEUR,ROLE_UTILISATEUR] }
+        - { path: ^/espace-utilisateur/loueur, roles: ROLE_LOUEUR }
 
     access_denied_url: /login
         

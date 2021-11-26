@@ -71,7 +71,7 @@ Pour créer un projet, on fait :
 Cloner le repository
 
 ```
-git clone --single-branch -b master https://github.com/marcoegy93/Car-Rental-Management-System.git
+git clone --single-branch -b master https://github.com/marcoegy93/Projet_site_location_de_voitures
 ```
 
 Installer les dépendances nécessaires du projet

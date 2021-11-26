@@ -1,0 +1,129 @@
+
+
+.navbar-brand img{
+	height: 4rem;
+}
+
+.navbar-brand:hover{
+		transform: scale(1.1);
+}
+
+.navbar-nav li{
+	padding-right: 0.7rem;
+}
+
+.navbar-nav{
+	margin-right: 20px;
+}
+
+.navbar-dark .navbar-nav .nav-link{
+	text-transform: uppercase;
+	color: white;
+	padding-top: .8rem;
+	display: block;
+	transition: transform .5s ease;
+    animation: bounceInRight;
+    animation-duration: 2s;
+
+}
+
+.navbar-toggler{
+	margin: 0;
+}
+
+.carousel-item{
+	pause: "false";
+}
+
+.carousel-inner .carousel-item .d-block{
+  height:130vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.carousel-item{
+  position: relative;
+
+}
+.carousel-item .carousel-caption{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 15%;
+  background:linear-gradient(70deg, rgba(0,0,0,0.95), rgba(0,0,0,0));
+}
+
+.carousel-caption h3{
+  animation: bounceInRight;
+  animation-duration: 2s;
+
+}
+
+#texto{
+  text-align: left;
+  display:block;
+  width: 60%;
+}
+
+#previous{
+  z-index:1000;
+}
+#previousicon{
+  background-color: black;
+  padding:15%;
+}
+
+#next{
+  z-index:999;
+}
+#nexticon{
+  background-color: black;
+  padding:15%;
+}
+
+footer{
+	background-color:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+
+.pt-4 {
+
+	background: white;
+	border-radius: 3px;
+	box-shadow: 0px 25px 42px rgba(0,0,0,0.2);
+  	margin: 2%;
+  	padding: 2% 5%;
+}
+
+#titre{
+  	text-align: center;
+  	background: black;
+	color: white;
+	margin: 0 auto;
+  	display: block;
+ 	width: 80%;
+	text-align: center;
+	transition: transform .5s ease;
+
+}
+
+
+@media only screen and (min-width: 569px) and (max-width: 1200px){
+  .navbar-toggler{
+    color:rgba(0,0,0,.5);
+    border-color:rgba(0,0,0,.1)}.navbar-light 
+  .navbar-toggler-icon{
+    background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+  }

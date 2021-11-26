@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ vehicule.type }} - RentCar {% endblock %}
+
+{% block body %}
+    <style>
+        footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+        .wrapper{
+            width: 70%;
+            display: block;
+            margin: 0 auto; 
+        }
+        .wrapper2{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            width: 90%;
+            margin: 0 auto;
+        }
+        .pt-4 {
+            background: white;
+            border-radius: 3px;
+            box-shadow: 0px 25px 42px rgba(0,0,0,0.2);
+            padding: 2%;
+            margin: 1%;
+            z-index: 1;
+        }
+        .wrapper .pt-4 img{
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+            transition: transform .5s ease;
+        }
+        .wrapper2 .pt-4 img{
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+            transition: transform .5s ease;
+        }
+        #texte{
+            text-align: justify;
+	        text-justify: inter-word; 
+        }
+        #titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+            transition: transform .5s ease;
+
+        }
+
+        #titre a{
+            color: white;
+            text-decoration: none;
+        }
+        
+        #titre:hover{
+            transform : scale(1.1);
+        }
+        @media only screen and (min-width: 569px) and (max-width: 768px){
+                .wrapper{
+                    width:90%; 
+                }
+                .wrapper2{
+                    grid-template-columns: repeat(1, 1fr);
+                }
+                #vehicule{
+                    display:none;
+                }
+        }
+	    @media only screen and (max-width: 568px){
+            .wrapper{
+                    width:90%; 
+                }
+                .wrapper2{
+                    grid-template-columns: repeat(1, 1fr);
+                }
+                #vehicule{
+                    display:none;
+                }
+        }
+    </style>
+    <br><br><br>
+        <div class="{{ is_granted('IS_AUTHENTICATED_FULLY') and app.user.role=="ROLE_UTILISATEUR" ? 'wrapper2' : 'wrapper' }}">
+            <div class="pt-4" id="vehicule">
+                <img src="{{asset('uploads/')}}{{ vehicule.photo }}"><br>
+                <h3 id="titre"><a href="{{ path('vehicule_view', {id : vehicule.idVehicule}) }}" class="vehiculed-title">{{ vehicule.type }}</a></h3><br>
+                        <h5 class="title">Prix de la location: {{vehicule.prix}} €/Jour</h5>
+                        <ul>
+                            <li>{{ vehicule.caract['categorie'] }}</li>
+                            <li>{{ vehicule.caract['energie'] }}</li>
+                            <li>{{ vehicule.caract['moteur'] }}</li>
+                            <li>{{ vehicule.caract['boite'] }}</li>
+                            <li>{{ vehicule.caract['nb_portes'] }}</li>
+                        </ul><br>
+                        <p class="vehiculed-text">Quantité en stock : {{ vehicule.nb }}</p><br>
+            </div>
+            
+                    
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.role=="ROLE_UTILISATEUR" %}
+                        <div class="pt-4" id="location">
+                            {% block formRent %}{% endblock %}
+                        </div>
+                    {% endif %}
+                    
+                </div>
+        <div>
+            
+        </div>
+    </div>
+    
+
+{% endblock %}
+

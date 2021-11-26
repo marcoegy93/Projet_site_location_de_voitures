@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace -
+	{% if app.user.role == 'ROLE_LOUEUR' %}
+		Entreprise
+	{% elseif app.user.role == 'ROLE_UTILISATEUR' %}
+		Loueur
+	{% endif %}
+{% endblock %}
+
+{% block body %}
+		
+		<div style="flex: 1;">
+			{% block dashboard %}
+			{% endblock %}
+
+		</div>
+
+	{% endblock %}

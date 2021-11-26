@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <!-- /* <style>
+        
+        #champs::placeholder{
+	color: white;
+	opacity: 0.75;
+}
+
+#arriereplan{
+	background-attachment: fixed;
+	background-size: 100%;
+}
+.main-content {
+	margin: auto;
+	width: 14em;
+	text-align: center;
+	background: rgba(0,0,0,0.9);
+	padding-bottom: 50px;
+	padding-top: 50px;
+	padding-right: 800px;
+}
+
+form {
+	padding-left: 200px;
+}
+
+.form-control {
+	background: none;
+	border: none;
+	outline: none;
+	color: #fff;
+	font-size: 18px;
+	margin: auto;
+	width: 400px;
+	border-bottom: 1px solid gray;
+}
+
+
+-->
+ <style>
+    input:hover {
+        border: 2px solid #6495ED;
+        transform: scale(1.1);
+    }
+    form{
+        display: block;
+        margin: 0 auto;
+        width: 60%;
+    }
+    input {
+        height: 45px;
+        width: 100%;
+    }
+    button {
+    background-color: #000; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.5s;
+    }
+
+    #id_button{
+        text-decoration: none;
+    } 
+
+    ul li{
+        color: red;
+    }
+    #titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+			padding: 0.5%;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+
+        }
+        footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+
+    @media only screen and (max-width: 768px){
+        form{
+            display: block;
+            margin: 0 auto;
+            width: 90%;
+        }
+    }
+
+    </style>
+    <br><br><br><br>
+    <!-- <div class="form"> -->
+    <h1 id="titre" class="h3 mb-3 font-weight-normal">Formulaire d'inscription</h1><br>
+			<form method="post" class="p-3">
+				{{ form_start(registrationForm) }}
+                
+        <div required>{{ form_row(registrationForm.nom,{label: 'Votre nom : '},
+           ) }}</div><br>
+        <div required>{{ form_row(registrationForm.prenom,{
+            label: 'Votre prénom : '
+        }) }}</div><br>
+        <div required>{{ form_row(registrationForm.pseudo,{
+            label: 'Votre pseudo : '
+        }) }}</div><br>
+        <div required>{{ form_row(registrationForm.email,{
+            label: 'Votre email : '
+        }) }}</div><br>
+        <div required>{{ form_row(registrationForm.plainPassword, {
+            label: 'Votre mot de passe : '
+        }) }}</div><br>
+        <div required>{{ form_row(registrationForm.nomE, {
+            label: 'Votre nom entreprise : '
+        }) }}</div><br>
+        <div required>{{ form_row(registrationForm.adresseE, {
+            label: 'Votre adresse entreprise : '
+        }) }}</div><br>
+
+        <button type="submit" class="id_button">Créer un compte</button>
+    {{ form_end(registrationForm) }} 
+			</form>
+    
+{% endblock %}

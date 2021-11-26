@@ -1,0 +1,90 @@
+{% extends 'vehicules/vehicule.view.html.twig' %}
+
+{% block title %}
+Louer le véhicule
+{% endblock %}
+
+{% block formRent %}
+<style>
+    footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+input:hover {
+        border: 2px solid #6495ED;
+        transform: scale(1.1);
+    }
+    form{
+        display: block;
+        margin: 0 auto;
+        width: 60%;
+    }
+    input {
+        height: 45px;
+        width: 100%;
+    }
+    button {
+    background-color: #000; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.5s;
+    }
+
+    #id_button{
+        text-decoration: none;
+    } 
+    #titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+			padding: 0.5%;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+
+        }
+        .errors{
+            color: red;
+        }
+
+        ul li{
+            color: red;
+        }
+</style>
+    <h3 id="titre">Veuillez choisir une date de début et fin de location </h3>
+    <form method="POST" class="form">
+        {{ form_start(form) }}
+        <div class="errors">
+            <ul>
+                {% if errors is defined %}
+                {% for error in errors %}
+                <li>{{ error.message }}</li>
+                {% endfor %}
+                {% endif %}
+                
+            </ul>     
+        </div>
+
+        
+        {{ form_row(form.nb, { 'label' : 'Quantité' }) }}
+        {{ form_row(form.DateD, { 'label' : 'Date de début' }) }}
+        
+        {{ form_row(form.DateF, { 'label' : 'Date de fin (facultatif)' }) }}
+        <br><br><button type="submit">Louer</button>
+        {{ form_end(form) }}
+    </form>
+{% endblock %}
+

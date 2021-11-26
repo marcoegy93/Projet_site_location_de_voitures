@@ -1,0 +1,87 @@
+{% extends 'espace_utilisateur/index.html.twig' %}
+
+{% block title %}
+	Nouveau véhicule ou modification
+{% endblock %}
+
+{% block body %}
+<style>
+    input:hover {
+        border: 2px solid #6495ED;
+        transform: scale(1.1);
+    }
+    form{
+        display: block;
+        margin: 0 auto;
+        width: 60%;
+    }
+    input,select {
+        height: 45px;
+        width: 100%;
+    }
+    button {
+    background-color: #000; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.5s;
+    }
+
+    #id_button{
+        text-decoration: none;
+    } 
+
+    ul li{
+        color: red;
+    }
+    #titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+			padding: 0.5%;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+
+        }
+		footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+</style>
+			<br><br><br><br><br>
+			<h1 id="titre">Formulaire d'ajout d'une voiture</h1><br><br>
+				{{form_start(form)}}
+
+				{{ form_errors(form) }}
+
+				{{form_row(form.type, { 'label' : 'Marque et modèle du véhicule : ','attr' : { 'placeholder': 'Entrez le type de la voiture'}})}}
+
+				{{form_row(form.prix, { 'label' : 'Prix de la location : ', 'attr' : { 'placeholder': 'Entrez le prix de la location'}})}}
+				{{form_row(form.energie, {'label' : 'Carburant : '})}}
+				{{form_row(form.categorie, {'label' : 'Catégorie : '})}}
+				{{form_row(form.moteur, {'label' : 'Moteur : '})}}
+				{{form_row(form.boite, {'label' : 'Boite de vitesse : '})}}
+
+				{{form_row(form.nb_portes, {'label' : 'Nb de portes : '})}}
+				{{form_row(form.nb, {'label' : 'Quantité : ', 'attr' : { 'placeholder': 'Entrez une quantité'}})}}
+				{{form_row(form.photo,{'label' : 'Image de la voiture : '})}}
+				<button type="submit" id="button">Enregister</button>
+				{{form_end(form)}}
+			</form>
+			<br><br>
+
+
+{% endblock %}

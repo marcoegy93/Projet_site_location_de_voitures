@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Nos voitures {% endblock %}
+        
+{% block body %}
+    <style>
+        .pt-4 {
+            background: white;
+            border-radius: 3px;
+            box-shadow: 0px 25px 42px rgba(0,0,0,0.2);
+            margin: 2%;
+            z-index: 1;
+        }
+        .wrapper{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 90%;
+            margin: 0 auto; 
+        }
+
+        .wrapper .pt-4 img{
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+            transition: transform .5s ease;
+        }
+        #texte{
+            text-align: justify;
+	        text-justify: inter-word; 
+        }
+        #titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+            transition: transform .5s ease;
+
+        }
+
+        #titre a{
+            color: white;
+            text-decoration: none;
+        }
+        
+        #titre:hover{
+            transform : scale(1.1);
+        }
+
+
+        #btn {
+            background-color: black;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+            margin: 0 auto;
+            transition: transform .5s ease;
+        }
+
+        #btn:hover{
+            background: lightblue;
+            transform: scale(1.1);
+            color: #fff;
+        }
+
+        footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+    text-align: center;
+  width: 100%;
+}
+        @media only screen and (min-width: 769px) and (max-width: 1000px){
+            .wrapper{
+                grid-template-columns: repeat(2, 1fr);
+                width: 100%;
+            }
+        }
+
+        @media only screen and (min-width: 569px) and (max-width: 768px){
+            .wrapper{
+                grid-template-columns: repeat(1, 1fr);
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 568px){
+            .wrapper{
+                grid-template-columns: repeat(1, 1fr);
+                width: 100%;
+            }
+        }
+    </style>
+    <br><br><br>
+    <div class="container-fluid">
+    
+        <p></p>
+        <div class="d-flex">            
+            {% for message in app.flashes('notif') %}
+                <div class="alert alert-dismissible alert-success"  style="margin: 0 auto">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Bravo !</strong> Votre commande à correctement été ajouté à <a href="{{ path('panier_index') }} " class="alert-link">votre panier !</a>
+                </div>
+            {% endfor %}
+        </div>
+        {% if vehicules | length == 0 %}
+				<h2 id="titre">Aucun vehicule pour le moment à proposer</h2><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	    {% else %}
+        <div class="wrapper">
+            {% for vehicule in vehicules %}
+                <div class="pt-4">
+                    <img src="{{asset('uploads/')}}{{ vehicule.photo }}" alt="{{ vehicule.type }}"><br>
+                    <h3 id="titre"><a href="{{ path('vehicule_view', {id : vehicule.idVehicule}) }}" class="vehiculed-title">{{ vehicule.type }}</a></h3><br>
+                    <h5 class="title">Prix de la location: {{vehicule.prix}} €/Jour</h5>
+                    <ul>
+                        <li>{{ vehicule.caract['categorie'] }}</li>
+                        <li>{{ vehicule.caract['energie'] }}</li>
+                        <li>{{ vehicule.caract['moteur'] }}</li>
+                        <li>{{ vehicule.caract['boite'] }}</li>
+                        <li>{{ vehicule.caract['nb_portes'] }}</li>
+                    </ul>
+                    <p class="vehiculed-text">Quantité en stock : {{ vehicule.nb }}</p>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if app.user.role=="ROLE_UTILISATEUR" %}
+                            {% if vehicule.nb == 0 %}
+                                <p style="color:red;">RUPTURE DE STOCK</p>
+                            {% else %} 
+                            <a href="{{ path('vehicule_location', {id : vehicule.idVehicule}) }}" id="btn">Louer</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('vehicule_view', {id : vehicule.idVehicule}) }}" id="btn">En savoir plus</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ path('vehicule_view', {id : vehicule.idVehicule}) }}" id="btn">En savoir plus</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+        </div>
+        {% endif %}
+        
+
+{% endblock %}

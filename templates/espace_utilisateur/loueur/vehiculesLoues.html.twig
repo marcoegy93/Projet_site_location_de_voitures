@@ -1,0 +1,123 @@
+{% extends 'espace_utilisateur/index.html.twig' %}
+
+{% block title %}
+	Véhicules loués
+{% endblock %}
+
+{% block dashboard %}
+
+<style>
+	#titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+			padding: 0.5%;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+
+        }
+	button {
+    background-color: #000; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: left;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.5s;
+    }
+	form{
+        display: block;
+        margin: 0 auto;
+        width: 60%;
+    }
+    select {
+        height: 45px;
+        width: 100%;
+    }
+
+	footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+
+	@media only screen and (min-width: 769px) and (max-width: 1000px){
+            #montant{
+                display:none;
+            }
+        }
+	@media only screen and (min-width: 569px) and (max-width: 768px){
+        form{
+            display: block;
+            margin: 0 auto;
+            width: 90%;
+        }
+		#montant{
+                display:none;
+            }
+			#date{
+                display:none;
+            }
+    }
+	@media only screen and (max-width: 568px){
+			#photo{
+				display:none;
+			}
+			#montant{
+                display:none;
+            }
+			#date{
+                display:none;
+            }
+    }
+</style>
+<br><br><br><br>
+			
+			{{ form_start(form) }}
+			{{ form_row(form.utilisateur, {'label' : 'Selectionnez un utilisateur : '})}}
+			<br><button>Valider</button>
+			{{ form_end(form) }}
+			<br>
+			{% if factures | length > 0%}
+			<table class="table table-striped table-white">
+				<thead>
+					<tr>
+						<th class="align-middle text-center">Véhicule</th>
+						<th class="align-middle text-center">Client</th>
+						<th id="date" class="align-middle text-center">Date de location</th>
+						<th id="date" class="align-middle text-center">Date de fin de location</th>
+						<th id="montant" class="align-middle text-center">Montant en €</th>
+						<th id="photo" class="align-middle text-center">Photo</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for facture in factures %}
+					<tr>
+						<td class="align-middle text-center">{{ facture[1].type }}</td>
+						<td class="align-middle text-center">{{ facture[2].prenom }} {{ facture[2].nom }}</td>
+						<td id="date" class="align-middle text-center">{{ facture[0].dateD | date('d-m-Y')}}</td>
+						<td id="date" class="align-middle text-center">{{ facture[0].dateF | date('d-m-Y')}}</td>
+						<td id="montant" class="align-middle text-center">{{ facture[0].valeur }}
+							€</td>
+						<td id="photo" class="align-middle text-center"><img src="{{ asset('uploads/') }}{{ facture[1].photo }}" alt="{{ facture[1].type }}" style="height: 100px; object-fit: cover"></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			  </table>
+			  {% else %}
+	<br><br><br>
+				<p></p>
+				<h1 id="titre">Aucune location de client pour le moment!</h1>
+				<p></p>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	{% endif %}
+{% endblock %}

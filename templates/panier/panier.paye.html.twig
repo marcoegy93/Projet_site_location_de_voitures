@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Régler une commande
+{% endblock %}
+
+{% block body %}
+<style>
+	footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+
+
+
+
+	@media only screen and (min-width: 569px) and (max-width: 768px){
+			#photo{
+				display:none;
+			}
+			.table{
+				width: 100%;
+			}
+    }
+	@media only screen and (max-width: 568px){
+			#photo{
+				display:none;
+			}
+			.table{
+				width: 100%;
+			}
+    }
+</style>
+<br><br><br>
+	<div class="container-fluid">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="align-middle text-center">Type</th>
+						<th class="align-middle text-center">Location en jours</th>
+						<th class="align-middle text-center">Montant de la location</th>
+						<th id="photo" class="align-middle text-center">Photo</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="align-middle text-center">{{ vehicule.type }}</td>
+						<td class="align-middle text-center">{{ nbDays }}</td>
+							
+						<td class="align-middle text-center">{{ facture.valeur }}
+							€</td>
+						<td id="photo" class="align-middle text-center"><img src="{{ asset('uploads/') }}{{ vehicule.photo }}" alt="{{ vehicule.type }}" style="height: 50px; object-fit: cover"></td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<p style="float:right;">Total: {{ facture.valeur }}€</p><br><br><br>
+			<div class="row float-right">
+				<a href="{{ path('facture_miseAJour', { id:facture.idFacture }) }}" class="btn btn-success">Régler la commande</a>
+			</div>
+		</div>
+	</div>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+{% endblock %}

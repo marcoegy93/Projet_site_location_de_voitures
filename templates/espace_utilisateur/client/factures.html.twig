@@ -1,0 +1,128 @@
+{% extends 'espace_utilisateur/index.html.twig' %}
+
+{% block title %}
+	Mes factures | Loueur
+{% endblock %}
+
+{% block dashboard %}
+<br><br><br>
+<style>
+	#titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+			padding: 0.5%;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+
+        }
+		.button {
+    background-color: #000; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+	margin: 0 auto;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.5s;
+	width: 200px;
+    }
+		footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+		@media only screen and (min-width: 769px) and (max-width: 1000px){
+            
+            #photo{
+				display:none;
+			}
+        }
+	@media only screen and (min-width: 569px) and (max-width: 768px){
+            #photo{
+				display:none;
+			}
+    }
+	@media only screen and (max-width: 568px){
+			#photo{
+				display:none;
+			}
+            #etat{
+                display:none;
+            }
+    }
+</style>
+<h3 id="titre">Vos factures</h3><br>
+	{% if factures | length > 0%}
+	<div class="container-fluid h-100">
+		<p></p>
+		<div class="">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="align-middle text-center">Véhicule</th>
+						<th class="align-middle text-center">Date de location</th>
+						<th class="align-middle text-center">Date de fin de location</th>
+						<th class="align-middle text-center">Montant en €</th>
+						<th id="etat" class="align-middle text-center">État de la location</th>
+						<th id="etat" class="align-middle text-center">État du paiement</th>
+						<th id="photo" class="align-middle text-center">Photo</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for facture in factures %}
+						
+						<tr>
+							<td class="align-middle text-center">{{ facture[1].type }}</td>
+							<td class="align-middle text-center">{{ facture[0].dateD | date('d-m-Y')}}</td>
+							<td class="align-middle text-center">{{ facture[0].dateF | date('d-m-Y') }}</td>
+							
+							<td class="align-middle text-center">{{ facture[0].valeur }}
+								€</td>
+							{% if date(facture[0].dateD) < date('now') %}
+								{% if date(facture[0].dateF) >  date('now') %}
+									{% if facture[0].retourne == false %}
+									<td id="etat" class="align-middle text-center">En cours</td>
+									{% else %}
+									<td id="etat" class="align-middle text-center">Véhicule Rendu</td>
+									{% endif %}
+								{% else %}
+								<td id="etat" class="align-middle text-center">Terminé</td>
+								{% endif %}	
+							{% else %}
+								<td id="etat" class="align-middle text-center">Location non commencée</td>
+							{% endif %}
+
+							{% if facture[0].etatR == true %}
+								<td id="etat" class="align-middle text-center">Terminé</td>
+							{% else %}
+								<td id="etat" class="align-middle text-center">Non effectué</td>
+							{% endif %}
+
+							<td id="photo" class="align-middle text-center"><img src="{{ asset('uploads/') }}{{ facture[1].photo }}" alt="{{ facture[1].type }}" style="height: 100px; object-fit: cover"></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br>
+	{% else %}
+	<br><br><br>
+				<p></p>
+				<h1 id="titre">Pas de facture !</h1>
+				<p></p>
+				<a href="{{ path('vehicules') }}" class="button">Retourner voir nos véhicules</a>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	{% endif %}
+
+{% endblock %}

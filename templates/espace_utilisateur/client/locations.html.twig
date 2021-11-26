@@ -1,0 +1,136 @@
+{% extends 'espace_utilisateur/index.html.twig' %}
+
+
+{% block title %}Mes locations{% endblock %}
+
+{% block dashboard %}
+<br><br><br>
+<style>
+    #titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+			padding: 0.5%;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+
+        }
+        footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+        @media only screen and (min-width: 769px) and (max-width: 1000px){
+            
+            #photo{
+				display:none;
+			}
+        }
+	@media only screen and (min-width: 569px) and (max-width: 768px){
+            #photo{
+				display:none;
+			}
+            #montant{
+                display:none;
+            }
+    }
+	@media only screen and (max-width: 568px){
+			#photo{
+				display:none;
+			}
+            #montant{
+                display:none;
+            }
+            #date{
+                display:none;
+            }
+    }
+</style>
+
+<h3 id="titre">Vos locations</h3><br>
+{% if factures | length > 0%}
+    <div class="container-fluid h-100">
+
+
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="align-middle text-center">Véhicule</th>
+                    <th id="date" class="align-middle text-center">Date de début location</th>
+                    <th id="date" class="align-middle text-center">Date de fin de location</th>
+                    <th id="photo" class="align-middle text-center">Photo</th>
+                    <th id="montant" class="align-middle text-center">Montant</th>
+                    <th class="align-middle text-center">Règlement/Révision/Retournement</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for facture in factures %}
+                    <tr>
+                        <td class="align-middle text-center">{{ facture[1].type }}</td>
+                        <td id="date" class="align-middle text-center">{{ facture[0].dateD  | date('d-m-Y') }}</td>
+                            <td id="date" class="align-middle text-center">{{ facture[0].dateF | date('d-m-Y') }}</td>
+                        <td id="photo" class="align-middle text-center"><img src="{{ asset('uploads/') }}{{ facture[1].photo }}" alt="{{ facture[1].type }}" style="height: 100px; object-fit: cover"></td>
+                        <td id="montant" class="align-middle text-center">{{ facture[0].valeur }}€</td>
+                        <td class="align-middle text-center">
+                        {% if facture[0].etatR == false %}
+                                <a href="{{ path('facture_payer', {id : facture[0].idFacture }) }}" class="btn btn-success">Régler la commande</a>
+                        {% else %}
+                            {% if  facture[0].revision == false %}
+                                {% if facture[0].retourne == false %}
+                                    {% if date(facture[0].dateF) >= date('now') %}
+                                        {% if date(facture[0].dateD) <= date('now') %}
+                                            <p>Attention : échange non <br>possible pour une révision<br><a href="{{ path('espace_utilisateur_revision', {id : facture[0].idFacture }) }}" 
+                                            class="btn btn-success">Envoyer en révision</a></p><br>
+                                            <p><a href="{{ path('espace_utilisateur_retourne', {id : facture[0].idFacture }) }}" 
+                                            class="btn btn-danger">Retourner le véhicule</a></p>
+                                        {% else %}
+                                                <p>Dates de locations non encore arrivées</p>
+                                        {% endif %}
+
+                                    {% else %}
+                                            <p>Vous devez rendre le véhicule ! Date de fin : {{ facture[0].dateF | date('d-m-Y') }}</p><br>
+                                            <p><a href="{{ path('espace_utilisateur_retourne', {id : facture[0].idFacture }) }}" 
+                                                class="btn btn-danger">Retourner le véhicule</a></p>
+                                    {% endif %}
+                            {% endif %}
+                            {% endif %}
+                            {% if facture[0].revision == true %}
+                                    <p>Véhicule en révision</p>
+                            {% endif %}  
+                            {% if facture[0].revision == false %}
+                                {% if facture[0].retourne == true %}
+                                    <p>Véhicule rendu</p>
+                                {% endif %}   
+                            {% endif %} 
+                            {% if facture[0].revision == true %}
+                                {% if facture[0].retourne == true %}
+                                    <p>Véhicule rendu</p>
+                                {% endif %}   
+                            {% endif %}        
+                        {% endif %}
+                            </td>
+                            
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br>
+    {% else %}
+	<br><br><br>
+				<p></p>
+				<h1>Pas de facture !</h1>
+				<p></p>
+				<a href="{{ path('vehicules') }}" class="button">Retourner voir nos véhicules</a>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	{% endif %}
+
+{% endblock %}

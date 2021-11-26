@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre panier
+{% endblock %}
+
+{% block body %}
+<style>
+	a:hover{
+		text-decoration: none;
+		color:white;
+	}
+	.button {
+    background-color: #000; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: left;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.5s;
+	width: 200px;
+    }
+	#titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+			padding: 0.5%;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+
+        }
+		footer{
+	background:black;
+	color: white;
+	padding-bottom: 10px;
+	margin-bottom: -40px;
+  text-align: center;
+}
+		@media only screen and (min-width: 769px) and (max-width: 1000px){
+            #montant{
+                display:none;
+            }
+        }
+	@media only screen and (min-width: 569px) and (max-width: 768px){
+		#montant{
+                display:none;
+            }
+			#photo{
+				display:none;
+			}
+    }
+	@media only screen and (max-width: 568px){
+			#photo{
+				display:none;
+			}
+			#montant{
+                display:none;
+            }
+			#montant2{
+                display:none;
+            }
+			#date{
+                display:none;
+            }
+			#location{
+				display:none;
+			}
+    }
+</style>
+<br><br><br>
+<h3 id="titre">Votre panier</h3>
+	<div class="container-fluid">
+		<div class="container-fluid w-75">
+			{% if elements | length > 0 %}
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="align-middle text-center">Type</th>
+							<th class="align-middle text-center">Quantité</th>
+							<th id="location" class="align-middle text-center">Location en jours</th>
+							
+							<th id="montant2" class="align-middle text-center">Montant du véhicule / J</th>
+							<th id="montant" class="align-middle text-center">Montant de la location</th>
+							<th id="photo" class="align-middle text-center">Photo</th>
+							<th class="align-middle text-center"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for element in elements %}
+							<tr>
+								<td class="align-middle text-center">{{ element.item.type }}</td>
+								<td class="align-middle text-center">{{ element.nb }}</td>
+								
+								<td id="location" class="align-middle text-center">{{ element.nbDays }}</td>
+								
+								<td id="montant2" class="align-middle text-center">{{ element.item.prix }}
+									€</td>
+								<td id="montant" class="align-middle text-center">{{ element.item.prix*element.nb*element.nbDays }}
+									€</td>
+									
+								<td id="photo" class="align-middle text-center"><img src="{{ asset('uploads/') }}{{ element.item.photo }}" alt="{{ element.item.type }}" style="height: 50px; object-fit: cover"></td>
+								<td class="align-middle text-center">
+									<a href="{{ path('panier_supprimer', { 'id': element.item.idVehicule }) }}" class="btn btn-danger btn-sm">
+										<i class="fas fa-trash"></i>
+									</a>
+								</td>
+								<div class="row float-left">
+									<p></p>
+								</div>
+
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<p>Si vous avez loués plus de 10 véhicules chez nous ou que la location dépasse strictement 35 jours, vous pourrez bénéficier d'une réduction de 10% sur le prix total</p>
+				<p style="float:right;">Total : {{ totalPanier }}€</p><br><br>
+				<div class="row float-right">
+					<a href="{{ path('facture_nouvelle') }}" class="btn btn-success">Confirmer la commande</a>
+				</div>
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+				
+			{% else %}
+				<br><br><br>
+				<p></p>
+				<h1>Votre panier est vide !</h1>
+				<p></p>
+				<a href="{{ path('vehicules') }}" class="button">Retourner voir nos véhicules</a>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

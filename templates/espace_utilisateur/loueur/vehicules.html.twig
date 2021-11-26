@@ -1,0 +1,118 @@
+{% extends 'espace_utilisateur/index.html.twig' %}
+
+{% block title %}
+	Mes véhicules
+{% endblock %}
+
+{% block dashboard %}
+<style>
+	#image{
+		width:200px;
+	}
+	#titre{
+            text-align: center;
+            background-color: lightblue;
+            color: black;
+            margin: 0 auto;
+			padding: 0.5%;
+            display: block;
+            width: 80%;
+            text-align: center;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            font-style: italic;
+
+        }
+		footer{
+			background:black;
+			color: white;
+			padding-bottom: 10px;
+			margin-bottom: -40px;
+			text-align: center;
+		}
+	@media only screen and (min-width: 569px) and (max-width: 1100px){
+			#caract{
+				display:none;
+			}
+    }
+	@media only screen and (min-width: 569px) and (max-width: 768px){
+			#photo{
+				display:none;
+			}
+    }
+	@media (max-width: 568px){
+            #caract{
+				display:none;
+			}
+			#photo{
+				display:none;
+			}
+			#quantite{
+				display:none;
+			}
+    }
+</style>
+<br><br><br>
+	<h3 id="titre">Voici tous les véhicules de votre stock</h3><br>
+	<div class="d-flex">
+		{% for message in app.flashes('sucess') %}
+			<div class="alert alert-dismissible alert-success" style="margin: 0 auto">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ message }}
+			</div>
+		{% endfor %}
+	</div>
+	{% if vehicules | length == 0 %}
+				<p></p>
+				<p></p>
+				<p class="lead">Aucun vehicule pour le moment.</p><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	{% else %}
+	<table class="table table-striped table-white">
+		<thead>
+		  <tr>
+			<th class="align-middle text-center" scope="col">Type</th>
+			<th id="caract" class="align-middle text-center" scope="col">Caractéristiques</th>
+			<th id="quantite" class="align-middle text-center" scope="col">Quantité en stock</th>
+			<th class="align-middle text-center" scope="col">Montant de la location</th>
+			<th id="photo" class="align-middle text-center" scope="col">Photo</th>
+			<th class="align-middle text-center" scope="col"></th>
+		  </tr>
+		</thead>
+		<tbody>
+			{% for vehicule in vehicules %}
+				<tr>
+					<td>{{ vehicule.type }}</td>
+					<td id="caract">
+						<table class="table" >
+							<thead>
+								<th class="align-middle text-center" scope="col">Catégorie</th>
+								<th class="align-middle text-center" scope="col">carburant</th>
+								<th class="align-middle text-center" scope="col">Moteur</th>
+								<th class="align-middle text-center" scope="col">Boite de vitesse</th>
+								<th class="align-middle text-center" scope="col">Nombre de portes</th>
+							</thead>
+							<tbody>
+								<td class="align-middle text-center">{{vehicule.caract.categorie}}</td>
+								<td class="align-middle text-center">{{vehicule.caract.energie}}</td>
+								<td class="align-middle text-center">{{vehicule.caract.moteur}}</td>
+								<td class="align-middle text-center">{{vehicule.caract.boite}}</td>
+								<td class="align-middle text-center">{{vehicule.caract.nb_portes}}</td>
+							</tbody>
+						</table>
+					</td>
+					<td id="quantite" class="align-middle text-center">{{ vehicule.nb }} véhicule(s)</td>
+					<td class="align-middle text-center">{{ vehicule.prix }}€</td>
+					<td id="photo" class="align-middle text-center"><img id="image" src="{{asset('uploads/')}}{{ vehicule.photo }}" alt="{{ vehicule.type }}"></td>
+					<td class="align-middle text-center">
+						<a class="btn btn-warning" href="{{ path('espace_utilisateur_loueur_vehicule_modification', {id : vehicule.idVehicule }) }}">
+							modifier
+						</a><br><br>
+						<a class="btn btn-danger" href="{{ path('espace_utilisateur_loueur_vehicule_supprimer', {id : vehicule.idVehicule }) }}">
+							supprimer
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+		</tbody>
+	  </table>
+	  {% endif %}
+{% endblock %}

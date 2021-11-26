@@ -2,18 +2,118 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Rent your lux car !{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
-
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+        <link rel="stylesheet" href="CSS/style.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:500,900,100,300,700,400' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" 
+        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         {% endblock %}
     </head>
     <body>
+        <style>
+            .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link:hover{
+	            color: black;
+	            background-color: white;
+	            transform: scale(1.1);
+            }
+
+            .navbar{
+                font-weight: 700;
+                font-size: 0.9rem;
+                letter-spacing: 0.1rem;
+                background: rgba(0, 0, 0, .6)!important;
+                position: fixed;
+            }
+
+            .navbar-dark .navbar-nav .nav-link{
+                text-transform: uppercase;
+                color: white;
+                padding-top: .8rem;
+                display: block;
+                transition: transform .5s ease;
+                animation: bounceInRight;
+                animation-duration: 2s;
+
+            }
+        </style>             
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="{{path('home')}}" id="text_logo">RentYourLuxCar</a></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{{path('vehicules')}}">Véhicules<span class="sr-only">(current)</span></a>
+                </li>
+                {% if app.user %}
+                    {% if app.user.role == 'ROLE_UTILISATEUR' %}
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mon Espace Client</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{path('espace_utilisateur_index')}}">Tableau de bord</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{path('espace_utilisateur_client_locations', { id : app.user.idUtilisateur})}}">Mes locations</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{path('espace_utilisateur_client_factures',{ id : app.user.idUtilisateur})}}">Mes factures</a></div>
+                        </li>
+                    {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mon Espace Loueur</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{path('espace_utilisateur_loueur_index')}}">Tableau de bord</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{path('espace_utilisateur_loueur_vehicules', { id : app.user.idUtilisateur})}}">Mon stock</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{path('nouveau_vehicule')}}">Ajouter un véhicule</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{path('espace_utilisateur_loueur_vehicules_loues')}}">Les factures entreprises</a></div>
+                        </li>
+                    {% endif %}
+                    {% if app.user.role == 'ROLE_UTILISATEUR' %}
+                    <li class="nav-item active">
+                        <a href="{{path('panier_index')}}" class="nav-link cart position-relative d-inline-flex" aria-label="View your shopping cart" style="color: #fff;">
+                            {% set panier = app.session.get('panier') %}
+                            {% set length = panier ? panier | length : 0 %}
+                            <i style="margin-top:10px;"class="fas fa-shopping-cart fa-lg"></i>
+                            <span class='badge badge-pill cart-count'>{{ length }}</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{path('app_logout')}}">Déconnexion<span class="sr-only">(current)</span></a>
+                </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}">Créer un compte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
+                {% endif %}
+          
+              </ul>
+            </div>
+          </nav>
+          </header>
+          
         {% block body %}{% endblock %}
+        <footer><br>
+            <p>Marco Balamon | Abdeldjalel Chihab | Arthur Saavedra<br>IUT de Paris</p>  
+          <p class="text-center">Copyright ©2021 Tous les droits sont réservés | Site développé en HTML5 | CSS3 | PHP(Symfony)</p>
+        </footer>
     </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 </html>
